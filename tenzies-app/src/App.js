@@ -5,6 +5,16 @@ function App() {
   //create the state dice array
   const [dice, setDice] = React.useState(allNewDice());
 
+  function holdDice(id) {
+    setDice((oldDice) =>
+      oldDice.map((die) => {
+        return oldDice.indexOf(die) === id
+          ? { ...die, isHeld: !die.isHeld }
+          : die;
+      })
+    );
+  }
+
   function allNewDice() {
     //creating a new array to put the random numbers
     //then we changed to an array of objects so we can have the isHeld property
@@ -25,7 +35,12 @@ function App() {
 
   //map through the dice array to display the numbers
   const diceElements = dice.map((die, index) => (
-    <Die key={index} value={die.value} isHeld={die.isHeld} />
+    <Die
+      key={index}
+      value={die.value}
+      isHeld={die.isHeld}
+      holdDice={() => holdDice(index)}
+    />
   ));
 
   return (
